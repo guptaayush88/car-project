@@ -2,9 +2,10 @@ package com.unfi.codechallenges.cars.controller;
 
 import com.unfi.codechallenges.cars.dto.CarDto;
 import com.unfi.codechallenges.cars.service.CarService;
-import jakarta.validation.Valid;
+//import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
+//import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,8 +16,6 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/cars")
-
-//get cars
 public class CarsController {
 
     private final CarService carService;
@@ -36,15 +35,15 @@ public class CarsController {
         return ResponseEntity.ok(carService.createCar(car));
     }
 
-    @PostMapping(path = "/update")
-    public ResponseEntity<CarDto> updateCar(@RequestBody CarDto car) {
-        return ResponseEntity.ok(carService.update(car));
+    @PutMapping (path = "/{id}")
+    public ResponseEntity<CarDto> updateCar(@PathVariable Long id ,@RequestBody CarDto car) {
+        return ResponseEntity.ok(carService.update(id, car));
     }
 
-    @PostMapping(path = "/delete")
-    public ResponseEntity<CarDto> deleteCar(@RequestBody CarDto car) {
-        carService.delete(car);
-        return ResponseEntity.ok(null);
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<CarDto> deleteCar(@PathVariable Long id) {
+        carService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     // Custom exception handler for validation errors

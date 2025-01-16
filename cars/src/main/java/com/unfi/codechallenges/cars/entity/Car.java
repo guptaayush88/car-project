@@ -1,5 +1,5 @@
 package com.unfi.codechallenges.cars.entity;
-// car entity file
+
 import jakarta.persistence.*;
 import lombok.Data;
 

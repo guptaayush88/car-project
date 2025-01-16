@@ -1,5 +1,5 @@
 package com.unfi.codechallenges.cars.repository;
-//repository class of car
+
 import com.unfi.codechallenges.cars.entity.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,5 +8,8 @@ import java.util.List;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
-    public List<Car> findAllByIsActiveTrue();
+     List<Car> findAllByIsActiveTrue();
+
+     List<Car> Id(Long id);
+
 }

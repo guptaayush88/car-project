@@ -1,5 +1,6 @@
 package com.unfi.codechallenges.cars.service;
-//service class
+
+import com.unfi.codechallenges.cars.ExceptionHandler.CarNotFoundException;
 import com.unfi.codechallenges.cars.dto.CarDto;
 import com.unfi.codechallenges.cars.entity.Car;
 import com.unfi.codechallenges.cars.repository.CarRepository;
@@ -34,15 +35,17 @@ public class CarService {
                 .build();
     }
 
-    public CarDto update(CarDto car) {
-        Optional<Car> optionalCar = carRepository.findById(car.getId());
+    public CarDto update(Long id, CarDto car) {
+        Optional<Car> optionalCar = carRepository.findById(id);
+        log.info("Updating car");
         if (optionalCar.isPresent()) {
             var foundCar = optionalCar.get();
-            foundCar.setMake(car.getModel());
+            foundCar.setMake(car.getMake());
             foundCar.setModel(car.getModel());
             foundCar.setYear(car.getYear());
             foundCar.setVin(car.getVin());
             foundCar.setIsActive(true);
+            log.info("Updating car with id: {}", foundCar.getId());
             var updatedCar = carRepository.save(foundCar);
             return CarDto.builder()
                     .id(updatedCar.getId())
@@ -52,25 +55,26 @@ public class CarService {
                     .vin(updatedCar.getVin())
                     .build();
         } else {
-            throw new RuntimeException("Car not found");
+            throw new CarNotFoundException("Car not found");
         }
     }
 
-    public void delete(CarDto car) {
-        Optional<Car> optionalCar = carRepository.findById(car.getId());
+    public void delete(Long id) {
+        Optional<Car> optionalCar = carRepository.findById(id);
+        log.info("Deleting car");
         if (optionalCar.isPresent()) {
             var foundCar = optionalCar.get();
             log.info("Soft deleting car with id: {}", foundCar.getId());
             foundCar.setIsActive(false);
-            carRepository.save(foundCar);
+            carRepository.delete(foundCar);
         } else {
-            throw new RuntimeException("Car not found");
+            throw new CarNotFoundException("Car not found");
         }
     }
 
     public List<CarDto> getAll() {
         var allCars = carRepository.findAllByIsActiveTrue();
-        List<CarDto> cars = new ArrayList();
+        List<CarDto> cars = new ArrayList<>();
         for (Car car : allCars) {
             cars.add(CarDto.builder()
                     .id(car.getId())
