@@ -2,13 +2,9 @@ package com.unfi.codechallenges.cars.controller;
 
 import com.unfi.codechallenges.cars.dto.CarDto;
 import com.unfi.codechallenges.cars.service.CarService;
-//import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
-//import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,25 +28,21 @@ public class CarsController {
 
     @PostMapping
     public ResponseEntity<CarDto> createCar(@RequestBody CarDto car) {
+        log.info("creating car");
         return ResponseEntity.ok(carService.createCar(car));
     }
 
     @PutMapping (path = "/{id}")
     public ResponseEntity<CarDto> updateCar(@PathVariable Long id ,@RequestBody CarDto car) {
+        log.info("Updating car");
         return ResponseEntity.ok(carService.update(id, car));
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<CarDto> deleteCar(@PathVariable Long id) {
+        log.info("Deleting car");
         carService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-    // Custom exception handler for validation errors
-    @ExceptionHandler({ConstraintViolationException.class, MethodArgumentNotValidException.class})
-    public ResponseEntity<String> handleValidationExceptions(Exception e) {
-        log.error("Uh oh, an exception happened.");
-        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
 }

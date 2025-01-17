@@ -30,4 +30,5 @@ INSERT INTO CAR (make, model, year_built, vin, is_active) VALUES
  ('Audi', 'A4', 2019, 'WAUFFAFL3GN123456', true),
  ('Mercedes-Benz', 'C-Class', 2021, 'WDDGF8BB3DR123456', true),
  ('Volkswagen', 'Jetta', 2018, '3VWD17AJ5FM123456', true),
- ('Nissan', 'Altima', 2022, '1N4AL3AP4JC123456', true);
+ ('Nissan', 'Altima', 2022, '1N4AL3AP4JC123456', true),
+ ('KIA', 'E4', 2023, '1AJXWK4JC654321', true);

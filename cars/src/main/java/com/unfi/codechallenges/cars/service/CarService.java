@@ -21,8 +21,9 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
+    // Creating car
     public CarDto createCar(CarDto car) {
-        var newCar = new Car(car.getMake(), car.getModel(), car.getYear());
+        var newCar = new Car(car.getMake(), car.getModel(), car.getYear(), car.getVin());
         log.info("Creating car");
         var createdCar = carRepository.save(newCar);
         log.info("Created car with id: {}", createdCar.getId());
@@ -35,6 +36,7 @@ public class CarService {
                 .build();
     }
 
+    // Updating the car based on ID
     public CarDto update(Long id, CarDto car) {
         Optional<Car> optionalCar = carRepository.findById(id);
         log.info("Updating car");
@@ -59,6 +61,7 @@ public class CarService {
         }
     }
 
+    // Deleting car based on its ID
     public void delete(Long id) {
         Optional<Car> optionalCar = carRepository.findById(id);
         log.info("Deleting car");
@@ -72,6 +75,7 @@ public class CarService {
         }
     }
 
+    // Getting all cars
     public List<CarDto> getAll() {
         var allCars = carRepository.findAllByIsActiveTrue();
         List<CarDto> cars = new ArrayList<>();
